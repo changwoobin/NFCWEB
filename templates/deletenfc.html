@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>삭제하기</title>
+</head>
+<body>
+  <div id="name">{{username}}</div>
+  <form action="/deletenfc" method="post">
+    NFC 이름: <input type="text" name="nfcname">
+    <input type="text" id="username" name="username" style="display:none;">
+    <input type="submit" value="삭제하기">
+  </form>
+
+  <script>
+    const username = document.querySelector("#name").innerHTML;
+
+    document.querySelector("#username").value = username;
+  </script>
+</body>
+</html>

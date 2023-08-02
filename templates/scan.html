@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>스캔</title>
+</head>
+<body>
+    <div id="status">
+        버튼을 누르세요
+    </div>
+    <input type="button" value="NFC" id="btn">
+    
+    <form action="/downloadnfc" method="POST" id="sendnfcname" style="display: none;">
+        <input type="text" name="nfcname" id="nfcname">
+    </form>
+    <script type="text/javascript">
+        const btn = document.querySelector("#btn");
+        const status = document.querySelector("#status");
+        const nfcname = document.querySelector("#nfcname");
+        const sendnfcname = document.querySelector("#sendnfcname");
+        
+        btn.addEventListener("click", async () => {
+            status.innerHTML = "스캔 중입니다.";
+          try {
+            const ndef = new NDEFReader();
+            await ndef.scan();
+
+            ndef.addEventListener("readingerror", () => {
+              alert("error")
+            });
+
+            ndef.addEventListener("reading", ({ message, serialNumber }) => {
+                nfcname.value = serialNumber;
+                sendnfcname.submit();
+            });
+          } catch (error) {
+            alert(error)
+          }
+        });
+    </script>
+</body>
+</html>

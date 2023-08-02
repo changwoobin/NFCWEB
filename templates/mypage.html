@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>나의 페이지</title>
+</head>
+<body>
+    <h1 id="name">{{name}}</h1>
+    <div id="nfclist" style="background-color: #EFDADA; width: 200px;">
+        {% for i in nfcnamelist %}
+            <h5>{{i}}</h5>
+        {% endfor %}
+    </div>
+    <form action="/mypagecreate" method="POST" id="sendname" style="display: none;">
+        <input type="text" name="username" id="username">
+    </form>
+    <form action="/mypagedelete" method="POST" id="delete" style="display: none;">
+        <input type="text" name="username" id="deleteusername">
+    </form>
+    <form action="/mypageupdate" method="POST" id="update" style="display: none;">
+        <input type="text" name="username" id="updateusername">
+    </form>
+    
+    <input type="button" value="NFC 추가하기" id="addnfc">
+    <input type="button" value="NFC 파일 저장" id="updatenfc">
+    <input type="button" value="NFC 삭제" id="deletenfc">
+    
+    <script>
+        const name = document.querySelector("#name").innerHTML;
+        const form = document.querySelector('#sendname')
+        const addnfc = document.querySelector("#addnfc")
+        const form_delete = document.querySelector('#delete')
+        const deletenfc = document.querySelector("#deletenfc")
+        const form_update = document.querySelector('#update')
+        const updatenfc = document.querySelector("#updatenfc")
+        
+        
+        addnfc.addEventListener("click", () => {
+            document.querySelector("#username").value = name;
+            
+            form.submit();
+        })
+        deletenfc.addEventListener("click", () => {
+            document.querySelector("#deleteusername").value = name;
+            
+            form_delete.submit();
+        })
+        updatenfc.addEventListener("click", () => {
+            document.querySelector("#updateusername").value = name;
+            
+            form_update.submit();
+        })
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NFC 등록</title>
+</head>
+<body>
+  <span id="status">정보입력 후 버튼을 눌러주세요.</span>  
+  <span id="userid" style="display:none">{{userid}}</span>
+    
+  <form action="/createnfc" method="post" id="sendnfc">
+    NFC 이름: <input type="text" id="nfcname" name="nfcname">
+    <input type="text" id="nfcnum" name="nfcnum" style="display:none">
+    <input type="text" id="senduserid" name="senduserid" style="display:none">  
+  </form>
+    
+    
+  <input type="button" value="NFC등록하기" id="nfc">
+    
+    
+  <script>
+    const userid = document.querySelector("#userid").innerHTML;
+    const form = document.querySelector("#sendnfc");
+    const nfcname = document.querySelector("#nfcname");
+    const nfcnum = document.querySelector("#nfcnum");
+    const senduserid = document.querySelector("#senduserid");
+    const nfcbtn = document.querySelector("#nfc");
+    const status = document.querySelector("#status");
+      
+    nfcbtn.addEventListener("click", async () => {
+            
+            if(nfcname.value != '') {
+                status.innerHTML = "스캔 중입니다.";
+                try {
+                    const ndef = new NDEFReader();
+                    await ndef.scan();
+
+                    ndef.addEventListener("readingerror", () => {
+                      alert("error")
+                    });
+
+                    ndef.addEventListener("reading", ({ message, serialNumber }) => {
+                        nfcnum.value = serialNumber;
+                        senduserid.value = userid;
+
+
+                        form.submit();
+                    });
+                    } catch (error) {
+                        alert(error)
+                    }
+            }
+            else {
+                status.innerHTML = '정보를 입력해주세요.'
+            }
+          
+        });
+  </script>
+</body>
+</html>
